@@ -1,0 +1,2 @@
+tensorflow
+streamlit_drawable_canvas
