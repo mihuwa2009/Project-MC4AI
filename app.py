@@ -3,7 +3,6 @@ import numpy as np
 from streamlit_drawable_canvas import st_canvas
 from PIL import Image
 st.title('Handwriting Alphabet Training')
-
 epochs = st.sidebar.slider('Number of Epochs', 1, 50, 10)
 test_size = st.sidebar.slider('Test Size', 0.1, 0.5, 0.2)
 samples_per_class = st.sidebar.slider('Samples per Class', 100, 10000, 1000)
@@ -27,6 +26,7 @@ with tabs[0]:
         st.line_chart(history.history['loss'], use_container_width=True)
         st.line_chart(history.history['val_loss'], use_container_width=True)
 with tabs[1]:
+	st.header("Draw")
 	canvas_result = st_canvas(stroke_width=15,
 				stroke_color='rgb(255, 255, 255)',
 				background_color='rgb(0, 0, 0)',
