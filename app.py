@@ -16,7 +16,7 @@ for folder in folders:
   	for f in files:
     		if f.endswith('.png'):
       			img = Image.open(os.path.join(ds_path, folder, f))
-     			img = np.array(img)
+			img = np.array(img)
 			X.append(img)
 			y.append(folder)
 
