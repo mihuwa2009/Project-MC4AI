@@ -42,7 +42,7 @@ with tabs[0]:
     st.line_chart(history.history['loss'], use_container_width=True)
     st.line_chart(history.history['val_loss'], use_container_width=True)
 with tabs[1]:
-	  canvas_result = st_canvas(stroke_width=15,
+  canvas_result = st_canvas(stroke_width=15,
 						stroke_color='rgb(255, 255, 255)',
 						background_color='rgb(0, 0, 0)',
 						height=150,
