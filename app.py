@@ -10,9 +10,9 @@ st.title('Handwriting Alphabet Training')
 X = []
 y = []
 
-# data = load('dataset.npz')
-# X = data['images']
-# y = data['labels']
+data = load('dataset.npz')
+X = data['images']
+y = data['labels']
 
 tabs = st.tabs(["Model Training", "Drawable Canvas"])
 
