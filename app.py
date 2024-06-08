@@ -21,7 +21,7 @@ with tabs[0]:
     	epochs = st.slider('Number of Epochs', 1, 50, 10)
     	test_size = st.slider('Test Size', 0.1, 0.5, 0.2)
     	samples_per_class = st.slider('Samples per Class', 100, 10000, 1000)
-	if st.toggle('View Data'):
+        if st.toggle('View Data'):
 		fig, axs = plt.subplots(10, 10)
 		fig.set_figheight(6)
 		fig.set_figwidth(6)
