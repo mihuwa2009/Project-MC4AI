@@ -48,7 +48,6 @@ with tabs[1]:
 				height=150,
 				width=150,
 				key="canvas")
-
-	if canvas_result.image_data is not None:
-    img = canvas_result.image_data
-    st.write(img.shape)
+  if canvas_result.image_data is not None: 
+      img = canvas_result.image_data
+      st.write(img.shape)
