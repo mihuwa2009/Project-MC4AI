@@ -1,5 +1,6 @@
-import streamlit as st
 import numpy as np
+from numpy import load
+import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from PIL import Image
 import os
@@ -9,16 +10,9 @@ st.title('Handwriting Alphabet Training')
 X = []
 y = []
 
-# ds_path = 'dataset'
-# folders = os.listdir(ds_path)
-# for folder in folders:
-#   	files = os.listdir(os.path.join(ds_path, folder))
-#   	for f in files:
-#     		if f.endswith('.png'):
-#       			img = Image.open(os.path.join(ds_path, folder, f))
-# 			img = np.array(img)
-# 			X.append(img)
-# 			y.append(folder)
+data = load('dataset.npz')
+X = data['images']
+y = data['labels']
 
 tabs = st.tabs(["Model Training", "Drawable Canvas"])
 
@@ -28,8 +22,16 @@ with tabs[0]:
     	test_size = st.slider('Test Size', 0.1, 0.5, 0.2)
     	samples_per_class = st.slider('Samples per Class', 100, 10000, 1000)
 	
-	# if st.checkbox('View Data'):
-		
+	if st.checkbox('View Data'):
+		fig, axs = plt.subplots(10, 10)
+		fig.set_figheight(6)
+		fig.set_figwidth(6)
+
+		for i in range(26):
+   			for j in range(10):
+    				target = np.random.choice(np.where((y == i))[0])
+    				axs[i][j].axis('off')
+   				axs[i][j].imshow(X[target].reshape(28,28), cmap='gray')
 	
     	if st.button('Train Model'):
         	model, history = train_model(epochs, test_size, samples_per_class)
