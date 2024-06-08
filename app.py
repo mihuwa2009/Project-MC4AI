@@ -9,16 +9,16 @@ st.title('Handwriting Alphabet Training')
 X = []
 y = []
 
-ds_path = 'dataset'
-folders = os.listdir(ds_path)
-for folder in folders:
-  	files = os.listdir(os.path.join(ds_path, folder))
-  	for f in files:
-    		if f.endswith('.png'):
-      			img = Image.open(os.path.join(ds_path, folder, f))
-			img = np.array(img)
-			X.append(img)
-			y.append(folder)
+# ds_path = 'dataset'
+# folders = os.listdir(ds_path)
+# for folder in folders:
+#   	files = os.listdir(os.path.join(ds_path, folder))
+#   	for f in files:
+#     		if f.endswith('.png'):
+#       			img = Image.open(os.path.join(ds_path, folder, f))
+# 			img = np.array(img)
+# 			X.append(img)
+# 			y.append(folder)
 
 tabs = st.tabs(["Model Training", "Drawable Canvas"])
 
