@@ -22,9 +22,9 @@ with tabs[0]:
   test_size = st.slider('Test Size', 0.1, 0.5, 0.2)
   samples_per_class = st.slider('Samples per Class', 100, 10000, 1000)
   if st.toggle('View Data'):
-		fig, axs = plt.subplots(10, 10)
-		fig.set_figheight(6)
-		fig.set_figwidth(6)
+    fig, axs = plt.subplots(10, 10)
+    fig.set_figheight(6)
+    fig.set_figwidth(6)
     for i in range(26):
       for j in range(10):
         target = np.random.choice(np.where((y == i))[0])
