@@ -28,7 +28,7 @@ with tabs[0]:
     	test_size = st.slider('Test Size', 0.1, 0.5, 0.2)
     	samples_per_class = st.slider('Samples per Class', 100, 10000, 1000)
 	
-	if st.checkbox('View Data'):
+	# if st.checkbox('View Data'):
 		
 	
     	if st.button('Train Model'):
