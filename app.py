@@ -2,7 +2,23 @@ import streamlit as st
 import numpy as np
 from streamlit_drawable_canvas import st_canvas
 from PIL import Image
+import os
+
 st.title('Handwriting Alphabet Training')
+
+X = []
+y = []
+
+ds_path = 'dataset'
+folders = os.listdir(ds_path)
+for folder in folders:
+  	files = os.listdir(os.path.join(ds_path, folder))
+  	for f in files:
+    		if f.endswith('.png'):
+      			img = Image.open(os.path.join(ds_path, folder, f))
+     			img = np.array(img)
+			X.append(img)
+			y.append(folder)
 
 tabs = st.tabs(["Model Training", "Drawable Canvas"])
 
@@ -26,7 +42,6 @@ with tabs[0]:
         	st.line_chart(history.history['loss'], use_container_width=True)
         	st.line_chart(history.history['val_loss'], use_container_width=True)
 with tabs[1]:
-	st.header("Draw")
 	canvas_result = st_canvas(stroke_width=15,
 				stroke_color='rgb(255, 255, 255)',
 				background_color='rgb(0, 0, 0)',
