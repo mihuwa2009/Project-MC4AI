@@ -1,5 +1,6 @@
 import numpy as np
 from numpy import load
+import matplotlib.pyplot as plt
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from PIL import Image
@@ -18,8 +19,8 @@ tabs = st.tabs(["Model Training", "Drawable Canvas"])
 
 with tabs[0]:
   st.header("Model Training")
-  epochs = st.slider('Number of Epochs', 1, 50, 10)
-  test_size = st.slider('Test Size', 0.1, 0.5, 0.2)
+  epochs = st.slider('Number of Epochs', 1, 20, 2)
+  test_size = st.slider('Test Size', 0.1, 0.5, 0.1)
   samples_per_class = st.slider('Samples per Class', 100, 10000, 1000)
   if st.toggle('View Data'):
     fig, axs = plt.subplots(10, 10)
