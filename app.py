@@ -3,9 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation, Input
-from tensorflow.random import set_seed
-from tensorflow.keras.backend import clear_session
+from tensorflow.keras.layers import Dense, Activation, Input, Flatten
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from PIL import Image
@@ -66,12 +64,12 @@ if 'X' in st.session_state and 'y' in st.session_state:
       y_test_ohe = to_categorical(y_test, num_classes=26)
     
       model = Sequential()
-      model.add(Input(shape=X_train.shape[1:]))
+      model.add(Input(shape=(32,32,1)))
+      model.add(Flatten())
       model.add(Dense(26, activation='softmax'))
-      model.compile(loss='categorical_crossentropy', optimizer='adam', metrics='accuracy')
-      model.summary()
+      model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     
-      history = model.fit(X_train, y_train_ohe, epochs = epochs, verbose=1)
+      history = model.fit(X_train, y_train_ohe, epochs = epochs, verbose=1, validation_data=(X_test, y_test_ohe))
         
       st.write(f"Training Accuracy: {history.history['accuracy'][-1]:.4f}")
       st.write(f"Test Accuracy: {history.history['val_accuracy'][-1]:.4f}")
