@@ -36,7 +36,7 @@ with tabs[0]:
   
   st.header("Model Training")
   
-  samples_per_class = st.slider('Samples per Class', 100, 10000, 1000)
+  samples_per_class = st.number_input('Samples per Class', 100, 10000, 1000)
   
   if st.button('Load and view dataset'):
     X , y = readdata(samples_per_class)
@@ -56,6 +56,7 @@ with tabs[0]:
 
   epochs = st.slider('Number of Epochs', 1, 20, 2)
   test_size = st.slider('Test Size', 0.1, 0.5, 0.1)
+
 if 'X' in st.session_state and 'y' in st.session_state:
     X = st.session_state.X
     y = st.session_state.y
@@ -72,13 +73,27 @@ if 'X' in st.session_state and 'y' in st.session_state:
     
       history = model.fit(X_train, y_train_ohe, epochs = epochs, verbose=1)
         
-    st.write(f"Training Accuracy: {history.history['accuracy'][-1]:.4f}")
-    st.write(f"Test Accuracy: {history.history['val_accuracy'][-1]:.4f}")
+      st.write(f"Training Accuracy: {history.history['accuracy'][-1]:.4f}")
+      st.write(f"Test Accuracy: {history.history['val_accuracy'][-1]:.4f}")
         
-    st.line_chart(history.history['accuracy'], use_container_width=True)
-    st.line_chart(history.history['val_accuracy'], use_container_width=True)
-    st.line_chart(history.history['loss'], use_container_width=True)
-    st.line_chart(history.history['val_loss'], use_container_width=True)
+      fig, ax = plt.subplots()
+      ax.plot(history.history['loss'], label='Train Loss')
+      ax.plot(history.history['val_loss'], label='Val Loss')
+      ax.set_xlabel('Epochs')
+      ax.set_ylabel('Loss')
+      ax.set_title('Loss')
+      ax.legend()
+      st.pyplot(fig)
+
+      
+      fig, ax = plt.subplots()
+      ax.plot(history.history['accuracy'], label='Train Accuracy')
+      ax.plot(history.history['val_accuracy'], label='Val Accuracy')
+      ax.set_xlabel('Epochs')
+      ax.set_ylabel('Accuracy')
+      ax.set_title('Accuracy')
+      ax.legend()
+      st.pyplot(fig)
 
 with tabs[1]:
   
