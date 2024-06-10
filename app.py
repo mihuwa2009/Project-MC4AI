@@ -38,20 +38,17 @@ with tabs[0]:
   
   samples_per_class = st.slider('Samples per Class', 100, 10000, 1000)
   
-  if st.button('Load dataset'):
+  if st.button('Load and view dataset'):
     X , y = readdata(samples_per_class)
-    st.write(y.size)
-  
-  
-  if st.toggle('View Data'):
-    fig, axs = plt.subplots(10, 10)
+    fig, axs = plt.subplots(26, 10)
     fig.set_figheight(6)
     fig.set_figwidth(6)
+    alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     for i in range(26):
       for j in range(10):
-        target = np.random.choice(np.where((y == i))[0])
+        target = np.random.choice(np.where((y == alphabets[i]))[0])
         axs[i][j].axis('off')
-        axs[i][j].imshow(X[target].reshape(28,28), cmap='gray')
+        axs[i][j].imshow(X[target].reshape(32,32), cmap='gray')
     
     st.pyplot(fig)
 
