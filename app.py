@@ -34,7 +34,7 @@ with tabs[0]:
   
   st.header("Model Training")
   
-  samples_per_class = st.number_input('Samples per Class', 100, 10000, 1000)
+  samples_per_class = st.number_input('Samples per Class')
   
   if st.button('Load and view dataset'):
     X , y = readdata(samples_per_class)
@@ -52,8 +52,8 @@ with tabs[0]:
     
     st.pyplot(fig)
 
-  epochs = st.slider('Number of Epochs', 1, 20, 2)
-  test_size = st.slider('Test Size', 0.1, 0.5, 0.1)
+  epochs = st.number_input('Number of Epochs')
+  test_size = st.number_input('Test Size')
 
 if 'X' in st.session_state and 'y' in st.session_state:
     X = st.session_state.X
@@ -64,7 +64,7 @@ if 'X' in st.session_state and 'y' in st.session_state:
       y_test_ohe = to_categorical(y_test, num_classes=26)
     
       model = Sequential()
-      model.add(Input(shape=(32,32,1)))
+      model.add(Input(shape=(32,32)))
       model.add(Flatten())
       model.add(Dense(26, activation='softmax'))
       model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -94,7 +94,6 @@ if 'X' in st.session_state and 'y' in st.session_state:
       st.pyplot(fig)
 
 with tabs[1]:
-  
   canvas_result = st_canvas(stroke_width=15,
 						  stroke_color='rgb(255, 255, 255)',
 						  background_color='rgb(0, 0, 0)',
