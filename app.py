@@ -34,7 +34,7 @@ with tabs[0]:
   
   st.header("Model Training")
   
-  samples_per_class = st.number_input('Samples per Class')
+  samples_per_class = int(st.number_input('Samples per Class'))
   
   if st.button('Load and view dataset'):
     X , y = readdata(samples_per_class)
@@ -43,7 +43,7 @@ with tabs[0]:
     fig, axs = plt.subplots(26, 10)
     fig.set_figheight(6)
     fig.set_figwidth(6)
-    alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    # alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     for i in range(26):
       for j in range(10):
         target = np.random.choice(np.where((y == i))[0])
@@ -52,46 +52,48 @@ with tabs[0]:
     
     st.pyplot(fig)
 
-  epochs = st.number_input('Number of Epochs')
+  epochs = int(st.number_input('Number of Epochs'))
   test_size = st.number_input('Test Size')
 
-if 'X' in st.session_state and 'y' in st.session_state:
-    X = st.session_state.X
-    y = st.session_state.y
-    if st.button('Train Model'):
-      X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test_size)
-      y_train_ohe = to_categorical(y_train, num_classes=26)
-      y_test_ohe = to_categorical(y_test, num_classes=26)
-    
-      model = Sequential()
-      model.add(Input(shape=(32,32)))
-      model.add(Flatten())
-      model.add(Dense(26, activation='softmax'))
-      model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    
-      history = model.fit(X_train, y_train_ohe, epochs = epochs, verbose=1, validation_data=(X_test, y_test_ohe))
-        
-      st.write(f"Training Accuracy: {history.history['accuracy'][-1]:.4f}")
-      st.write(f"Test Accuracy: {history.history['val_accuracy'][-1]:.4f}")
-        
-      fig, ax = plt.subplots()
-      ax.plot(history.history['loss'], label='Train Loss')
-      ax.plot(history.history['val_loss'], label='Val Loss')
-      ax.set_xlabel('Epochs')
-      ax.set_ylabel('Loss')
-      ax.set_title('Loss')
-      ax.legend()
-      st.pyplot(fig)
-
+  if 'X' in st.session_state and 'y' in st.session_state:
       
-      fig, ax = plt.subplots()
-      ax.plot(history.history['accuracy'], label='Train Accuracy')
-      ax.plot(history.history['val_accuracy'], label='Val Accuracy')
-      ax.set_xlabel('Epochs')
-      ax.set_ylabel('Accuracy')
-      ax.set_title('Accuracy')
-      ax.legend()
-      st.pyplot(fig)
+      X = st.session_state.X
+      y = st.session_state.y
+      
+      if st.button('Train Model'):
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test_size)
+        y_train_ohe = to_categorical(y_train, num_classes=26)
+        y_test_ohe = to_categorical(y_test, num_classes=26)
+      
+        model = Sequential()
+        model.add(Input(shape=(32,32)))
+        model.add(Flatten())
+        model.add(Dense(26, activation='softmax'))
+        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+      
+        history = model.fit(X_train, y_train_ohe, epochs = epochs, verbose=1, validation_data=(X_test, y_test_ohe))
+          
+        st.write(f"Training Accuracy: {history.history['accuracy'][-1]:.4f}")
+        st.write(f"Test Accuracy: {history.history['val_accuracy'][-1]:.4f}")
+          
+        fig, ax = plt.subplots()
+        ax.plot(history.history['loss'], label='Train Loss')
+        ax.plot(history.history['val_loss'], label='Val Loss')
+        ax.set_xlabel('Epochs')
+        ax.set_ylabel('Loss')
+        ax.set_title('Loss')
+        ax.legend()
+        st.pyplot(fig)
+
+        
+        fig, ax = plt.subplots()
+        ax.plot(history.history['accuracy'], label='Train Accuracy')
+        ax.plot(history.history['val_accuracy'], label='Val Accuracy')
+        ax.set_xlabel('Epochs')
+        ax.set_ylabel('Accuracy')
+        ax.set_title('Accuracy')
+        ax.legend()
+        st.pyplot(fig)
 
 with tabs[1]:
   canvas_result = st_canvas(stroke_width=15,
@@ -101,6 +103,6 @@ with tabs[1]:
 						  width=150,
 						  key="canvas")
 
-if canvas_result.image_data is not None:
-  img = canvas_result.image_data
-  st.write(img.shape)
+  if canvas_result.image_data is not None:
+    img = canvas_result.image_data
+    st.write(img.shape)
