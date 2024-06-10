@@ -17,11 +17,11 @@ def readdata(samples_per_class):
 
   ds_path = 'dataset'
   folders = os.listdir(ds_path)
-  for folder in folders:
-    files = os.listdir(os.path.join(ds_path, folder))
+  for folder in range(len(folders)):
+    files = os.listdir(os.path.join(ds_path, folders[folder]))
     for f in files[:samples_per_class]:
       if f.endswith('.png'):
-        img = Image.open(os.path.join(ds_path, folder, f))
+        img = Image.open(os.path.join(ds_path, folders[folder], f))
         img = np.array(img)
         X.append(img)
         y.append(folder)
@@ -48,7 +48,7 @@ with tabs[0]:
     alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     for i in range(26):
       for j in range(10):
-        target = np.random.choice(np.where((y == alphabets[i]))[0])
+        target = np.random.choice(np.where((y == i))[0])
         axs[i][j].axis('off')
         axs[i][j].imshow(X[target].reshape(32,32), cmap='gray')
     
