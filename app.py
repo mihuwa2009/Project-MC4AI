@@ -50,7 +50,6 @@ if selected == "Model Training":
     fig, axs = plt.subplots(26, 10)
     fig.set_figheight(6)
     fig.set_figwidth(6)
-    # alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     for i in range(26):
       for j in range(10):
         target = np.random.choice(np.where((y == i))[0])
@@ -122,8 +121,8 @@ elif selected == 'Results':
   if st.button('Predict'):
     img = img.astype('float32') / 255.0
     model = st.session_state.model
-    prediction = model.predict(img).argsort()[0][::-1][:3]
+    prediction = model.predict(img).argsort()[0][::-1][:5]
     prediction_percentage = model.predict(img)[0][prediction]
     alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    for i in range(3):
+    for i in range(5):
       st.write(f"{alphabets[prediction[i]]} : {round(prediction_percentage[i] * 100 ,2)}%")
