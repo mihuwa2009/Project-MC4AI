@@ -69,6 +69,8 @@ if selected == "Model Training":
       
       if st.button('Train Model'):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test_size)
+        X_train = X_train / 255
+        X_test = X_test / 255
         y_train_ohe = to_categorical(y_train, num_classes=26)
         y_test_ohe = to_categorical(y_test, num_classes=26)
       
