@@ -8,6 +8,7 @@ import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from streamlit_option_menu import option_menu
 from PIL import Image
+import cv2
 import os
 
 def readdata(samples_per_class):
@@ -35,8 +36,6 @@ with st.sidebar:
         icons=['gear', 'bar-chart'],
         menu_icon="cast", default_index=0,
     )
-
-tabs = st.tabs(["Model Training", "Drawable Canvas"])
 
 if selected == "Model Training":
   
@@ -74,7 +73,7 @@ if selected == "Model Training":
         y_test_ohe = to_categorical(y_test, num_classes=26)
       
         model = Sequential()
-        model.add(Input(shape=(32,32,1)))
+        model.add(Input(shape=X_train.shape[1:]))
         model.add(Flatten())
         model.add(Dense(26, activation='softmax'))
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -113,8 +112,8 @@ elif selected == 'Results':
 
   if canvas_result.image_data is not None:
     img = canvas_result.image_data
-    img = np.mean(img, axis=-1)
-    img = img.reshape(32, 32,1)
+    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.resize(gray_img,(32,32))
     st.session_state.img = img
   
   if st.button('Predict'):
@@ -122,5 +121,6 @@ elif selected == 'Results':
     model = st.session_state.model
     prediction = model.predict(img).argsort()[0][::-1][:3]
     prediction_percentage = model.predict(img)[0][prediction]
+    alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     for i in range(3):
-      st.write(f"{prediction[i]} : {prediction_percentage[i]}%")
+      st.write(f"{alphabets[prediction[i]]} : {prediction_percentage[i]}%")
