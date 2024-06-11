@@ -6,6 +6,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation, Input, Flatten
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
+from streamlit_option_menu import option_menu
 from PIL import Image
 import os
 
@@ -26,11 +27,18 @@ def readdata(samples_per_class):
   
   return np.array(X), np.array(y)
 
-st.title('Handwriting Alphabet Training')
+st.title('Handwriting Alphabet Recognition')
+
+with st.sidebar:
+    selected = option_menu(
+        "Menu", ["Model Training", "Results"],
+        icons=['gear', 'bar-chart'],
+        menu_icon="cast", default_index=0,
+    )
 
 tabs = st.tabs(["Model Training", "Drawable Canvas"])
 
-with tabs[0]:
+if selected == "Model Training":
   
   st.header("Model Training")
   
@@ -72,6 +80,8 @@ with tabs[0]:
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
       
         history = model.fit(X_train, y_train_ohe, epochs = epochs, verbose=1, validation_data=(X_test, y_test_ohe))
+        
+        st.session_state.model = model
           
         st.write(f"Training Accuracy: {history.history['accuracy'][-1]:.4f}")
         st.write(f"Test Accuracy: {history.history['val_accuracy'][-1]:.4f}")
@@ -80,7 +90,6 @@ with tabs[0]:
         ax.plot(history.history['loss'], label='Train Loss')
         ax.plot(history.history['val_loss'], label='Val Loss')
         ax.set_xlabel('Epochs')
-        ax.set_ylabel('Loss')
         ax.set_title('Loss')
         ax.legend()
         st.pyplot(fig)
@@ -90,12 +99,11 @@ with tabs[0]:
         ax.plot(history.history['accuracy'], label='Train Accuracy')
         ax.plot(history.history['val_accuracy'], label='Val Accuracy')
         ax.set_xlabel('Epochs')
-        ax.set_ylabel('Accuracy')
         ax.set_title('Accuracy')
         ax.legend()
         st.pyplot(fig)
 
-with tabs[1]:
+elif selected == 'Results':
   canvas_result = st_canvas(stroke_width=15,
 						  stroke_color='rgb(255, 255, 255)',
 						  background_color='rgb(0, 0, 0)',
@@ -105,4 +113,11 @@ with tabs[1]:
 
   if canvas_result.image_data is not None:
     img = canvas_result.image_data
-    st.write(img.shape)
+    img = np.mean(img, axis=-1)
+    img = img.reshape(1, 32, 32, 1)
+    st.session_state.img = img
+  
+  if st.button('Predict'):
+    img = st.session_state.img
+    model = st.session_state.model
+    
