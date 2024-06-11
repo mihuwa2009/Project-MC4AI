@@ -69,8 +69,8 @@ if selected == "Model Training":
       
       if st.button('Train Model'):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test_size)
-        X_train = X_train / 255
-        X_test = X_test / 255
+        X_train = X_train.astype('float32') / 255.0
+        X_test = X_test.astype('float32') / 255.0
         y_train_ohe = to_categorical(y_train, num_classes=26)
         y_test_ohe = to_categorical(y_test, num_classes=26)
       
@@ -116,11 +116,11 @@ elif selected == 'Results':
     img = canvas_result.image_data
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.resize(gray_img,(32,32))
-    img = img.reshape(1,32,32)
+    img = img.reshape(32,32)
     st.session_state.img = img
   
   if st.button('Predict'):
-    img = st.session_state.img
+    img = img.astype('float32') / 255.0
     model = st.session_state.model
     prediction = model.predict(img).argsort()[0][::-1][:3]
     prediction_percentage = model.predict(img)[0][prediction]
