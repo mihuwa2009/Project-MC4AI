@@ -74,7 +74,7 @@ if selected == "Model Training":
         y_test_ohe = to_categorical(y_test, num_classes=26)
       
         model = Sequential()
-        model.add(Input(shape=(32,32)))
+        model.add(Input(shape=(32,32,1)))
         model.add(Flatten())
         model.add(Dense(26, activation='softmax'))
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -114,10 +114,13 @@ elif selected == 'Results':
   if canvas_result.image_data is not None:
     img = canvas_result.image_data
     img = np.mean(img, axis=-1)
-    img = img.reshape(1, 32, 32, 1)
+    img = img.reshape(32, 32,1)
     st.session_state.img = img
   
   if st.button('Predict'):
     img = st.session_state.img
     model = st.session_state.model
-    
+    prediction = model.predict(img).argsort()[0][::-1][:3]
+    prediction_percentage = model.predict(img)[0][prediction]
+    for i in range(3):
+      st.write(f"{prediction[i]} : {prediction_percentage[i]}%")
