@@ -114,6 +114,7 @@ elif selected == 'Results':
     img = canvas_result.image_data
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.resize(gray_img,(32,32))
+    img = img.reshape(1,32,32)
     st.session_state.img = img
   
   if st.button('Predict'):
