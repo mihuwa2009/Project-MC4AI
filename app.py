@@ -124,4 +124,4 @@ elif selected == 'Results':
     prediction_percentage = model.predict(img)[0][prediction]
     alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     for i in range(3):
-      st.write(f"{alphabets[prediction[i]]} : {prediction_percentage[i]}%")
+      st.write(f"{alphabets[prediction[i]]} : {round(prediction_percentage[i] * 100 ,2)}%")
