@@ -109,7 +109,6 @@ if selected == "Model Training":
             st.pyplot(fig)
 
 elif selected == 'Results':
-    # Load the model if it exists
     if os.path.exists(MODEL_PATH):
         model = load_model(MODEL_PATH)
         st.session_state.model = model
